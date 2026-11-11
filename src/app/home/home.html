@@ -1,0 +1,168 @@
+<nav class="section-nav" aria-label="Sections de l’accueil">
+  @for (section of sections; track section.id) {
+    <a
+      [attr.href]="'#' + section.id"
+      [attr.aria-current]="activeSection() === section.id ? 'location' : null"
+      [attr.aria-label]="section.label"
+      ><span></span
+    ></a>
+  }
+</nav>
+<nav class="section-arrows" aria-label="Section précédente ou suivante">
+  @if (adjacent(-1); as previous) {
+    <a [attr.href]="'#' + previous" aria-label="Section précédente">↑</a>
+  }
+  @if (adjacent(1); as next) {
+    <a [attr.href]="'#' + next" aria-label="Section suivante">↓</a>
+  }
+</nav>
+
+<section class="panel hero" id="home" data-section tabindex="-1" aria-labelledby="home-title">
+  <div class="hero-inner">
+    <p class="eyebrow">Label indépendant · {{ site.city }}</p>
+    <h1 id="home-title" [attr.aria-label]="site.name">
+      <span
+        >{{ site.wordmark.prefix }}<span class="school">{{ site.wordmark.outline }}</span></span
+      ><span>{{ site.wordmark.secondLine }}<span class="period">.</span></span>
+    </h1>
+    <a class="hero-next" href="#releases">Latest Releases <span aria-hidden="true">↓</span></a>
+  </div>
+</section>
+
+<section class="panel" id="releases" data-section tabindex="-1" aria-labelledby="releases-title">
+  <div class="section-inner">
+    <h2 id="releases-title">Latest Releases</h2>
+    <div class="release-grid">
+      @for (release of releases; track release.title) {
+        <article>
+          <img [src]="release.image" alt="" loading="lazy" width="700" height="700" />
+          <div class="card-meta">
+            <h3>{{ release.title }}</h3>
+            <time [attr.datetime]="release.date">{{
+              release.date | date: 'dd.MM.yyyy' : 'UTC'
+            }}</time>
+          </div>
+          <a class="text-link" [routerLink]="['/artistes', release.artistSlug]">{{
+            artistName(release.artistSlug)
+          }}</a>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="videos" data-section tabindex="-1" aria-labelledby="videos-title">
+  <div class="section-inner">
+    <h2 id="videos-title">Latest Videos</h2>
+    <div class="video-grid">
+      @for (video of videos; track video.title) {
+        <article>
+          <img [src]="video.image" alt="" loading="lazy" width="1000" height="720" />
+          <h3>{{ video.title }}</h3>
+          <p>{{ artistName(video.artistSlug) }} · Aperçu fictif</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="artists" data-section tabindex="-1" aria-labelledby="artists-title">
+  <div class="section-inner">
+    <h2 id="artists-title">Artists</h2>
+    <div
+      class="artist-track"
+      #track
+      tabindex="0"
+      role="region"
+      aria-label="Diapositives artistes. Utilisez les flèches gauche et droite."
+      (scroll)="trackArtist()"
+      (keydown)="artistKeys($event)"
+    >
+      @for (artist of artists; track artist.slug; let index = $index) {
+        <article
+          class="artist-slide"
+          [attr.inert]="activeArtist() === index ? null : ''"
+          [attr.aria-hidden]="activeArtist() === index ? null : 'true'"
+        >
+          <img [src]="artist.image" alt="" loading="lazy" width="1000" height="720" />
+          <div class="artist-copy">
+            <h3>{{ artist.name }}</h3>
+            <p>{{ artist.shortBio }}</p>
+            <a class="button" [routerLink]="['/artistes', artist.slug]"
+              >Discover Artist <span aria-hidden="true">↗︎</span></a
+            >
+          </div>
+        </article>
+      }
+    </div>
+    <div class="artist-nav" role="group" aria-label="Navigation du carrousel">
+      <button
+        type="button"
+        aria-label="Artiste précédent"
+        [disabled]="activeArtist() === 0"
+        (click)="selectArtist(activeArtist() - 1)"
+      >
+        ←
+      </button>
+      @for (artist of artists; track artist.slug; let index = $index) {
+        <button
+          class="artist-dot"
+          type="button"
+          [attr.aria-label]="artist.name"
+          [attr.aria-current]="activeArtist() === index ? 'true' : null"
+          (click)="selectArtist(index)"
+        >
+          <span></span>
+        </button>
+      }
+      <button
+        type="button"
+        aria-label="Artiste suivant"
+        [disabled]="activeArtist() === artists.length - 1"
+        (click)="selectArtist(activeArtist() + 1)"
+      >
+        →
+      </button>
+      <span class="sr-only" aria-live="polite">{{ artists[activeArtist()].name }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="shows" data-section tabindex="-1" aria-labelledby="shows-title">
+  <div class="section-inner">
+    <h2 id="shows-title">Upcoming Shows</h2>
+    @for (show of shows; track show.title) {
+      <article class="show">
+        <time [attr.datetime]="show.startsAt"
+          >{{ show.startsAt.slice(0, 10) }} ·
+          {{ show.startsAt.slice(11, 16) }} (Liège/Bruxelles)</time
+        >
+        <div>
+          <h3>{{ show.title }}</h3>
+          <p>{{ show.venue }}, {{ show.city }} · {{ artistName(show.artistSlug) }}</p>
+        </div>
+        <p>{{ show.status }}</p>
+      </article>
+    } @empty {
+      <p>No shows announced</p>
+    }
+  </div>
+</section>
+
+<section
+  class="panel beats-panel"
+  id="beats"
+  data-section
+  tabindex="-1"
+  aria-labelledby="beats-title"
+>
+  <div class="section-inner">
+    <p class="eyebrow">HighSchool Surgery · Instrumentals</p>
+    <h2 id="beats-title">Beats<span class="period">.</span></h2>
+    <p>Des boucles de vinyle, des breaks et des basses pour écrire et enregistrer.</p>
+    <a class="button" routerLink="/beats">Explore All Beats <span aria-hidden="true">↗︎</span></a>
+    @if (site.beatStarsUrl) {
+      <a class="text-link" [href]="site.beatStarsUrl">BeatStars</a>
+    }
+  </div>
+</section>

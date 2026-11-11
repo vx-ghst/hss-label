@@ -1,0 +1,89 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--header);
+  padding-inline: var(--gutter);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.wordmark {
+  text-decoration: none;
+  font: 800 1.95rem/0.85 var(--display);
+  white-space: nowrap;
+}
+.wordmark span {
+  color: #898989;
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.8rem, 2vw, 2rem);
+}
+nav a,
+.menu-toggle {
+  text-decoration: none;
+  text-transform: uppercase;
+  font:
+    650 0.76rem/1.2 ui-monospace,
+    monospace;
+  letter-spacing: 0.08em;
+}
+nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+}
+.menu-toggle {
+  display: none;
+  color: inherit;
+  background: transparent;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  padding-inline: 0.8rem;
+}
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.5rem;
+  color: var(--muted);
+  padding: 1.7rem max(var(--gutter), 46px) 1.7rem var(--gutter);
+  font-size: 0.8rem;
+}
+.skip {
+  position: fixed;
+  top: 0.6rem;
+  left: 1rem;
+  z-index: 10;
+  padding: 0.5rem;
+  background: var(--bg);
+  translate: 0 -160%;
+}
+.skip:focus {
+  translate: 0;
+}
+@media (max-width: 760px) {
+  .menu-toggle {
+    display: block;
+  }
+  nav {
+    display: none;
+    position: absolute;
+    inset: 100% 0 auto;
+    background: var(--bg);
+    padding: 1rem var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.open {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}

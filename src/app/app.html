@@ -1,0 +1,37 @@
+<a class="skip" href="#main-content">Aller au contenu</a>
+<header #header>
+  <a class="wordmark" routerLink="/" fragment="home" (click)="menuOpen.set(false)"
+    >{{ site.shortName }}<span>.</span></a
+  >
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-controls="site-menu"
+    [attr.aria-expanded]="menuOpen()"
+    (click)="menuOpen.update((open) => !open)"
+  >
+    Menu
+  </button>
+  <nav
+    id="site-menu"
+    aria-label="Navigation principale"
+    [class.open]="menuOpen()"
+    (keydown.escape)="menuOpen.set(false)"
+  >
+    @for (section of sections; track section.id) {
+      <a routerLink="/" [fragment]="section.id" (click)="menuOpen.set(false)">{{
+        section.label
+      }}</a>
+    }
+    <a routerLink="/asbl" (click)="menuOpen.set(false)">ASBL</a>
+    @if (site.merchUrl) {
+      <a [href]="site.merchUrl">Merch ↗</a>
+    }
+  </nav>
+</header>
+<main id="main-content" tabindex="-1"><router-outlet /></main>
+<footer>
+  <span>{{ site.name }} · Prototype</span>
+  <a routerLink="/mentions-legales">Mentions légales</a>
+  <a routerLink="/confidentialite">Confidentialité</a>
+</footer>
