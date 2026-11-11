@@ -1,0 +1,27 @@
+{
+  "fr": {
+    "id": "baryton-makila",
+    "slug": "baryton-makila",
+    "status": "draft",
+    "name": "Baryton Makila",
+    "shortBio": "Baryton Makila est un rappeur, beatmaker et producteur musical originaire de Liège, en Belgique. Actif sur la scène hip-hop indépendante, il développe son univers entre rap, production instrumentale et collaborations artistiques. Il participe notamment au projet Highschool Surgery aux côtés de Hakim Le Médecin Légiste et Dr Reikai.",
+    "biography": "**Baryton Makila** est un rappeur, beatmaker et producteur musical originaire de Liège, en Belgique. Actif depuis de nombreuses années sur la scène hip-hop indépendante, il développe un univers artistique mêlant écriture, interprétation et production musicale.\n\nSon parcours s'inscrit dans la culture rap underground belge, à travers des projets personnels et des collaborations avec d'autres artistes. Son travail de production apparaît notamment sur le projet « Dans Ma Tête » de Sismik l'Amazone.\n\nEn 2014, il figure parmi les artistes annoncés sur la compilation « Malva 'N Tape Vol. 1 », consacrée au rap belge.\n\nSon activité musicale se poursuit avec différentes collaborations, notamment le morceau « Babylone », présent sur la compilation « 4KFLOW, Vol. 1 » en 2024.\n\nAu sein de Highschool Surgery, Baryton Makila collabore avec Hakim Le Médecin Légiste et Dr Reikai sur « Freestyle 1 », une sortie annoncée pour le 27 novembre 2026.\n\nEntre rap, beatmaking et création collective, Baryton Makila contribue au développement de la scène hip-hop liégeoise et à la vitalité de la culture indépendante.",
+    "image": "/media/uploads/b2.jpg",
+    "featured": true,
+    "sortOrder": 2,
+    "links": [
+      {
+        "label": "Youtube",
+        "url": "https://www.youtube.com/@barytonmakila83"
+      },
+      {
+        "label": "Soundcloud Beats",
+        "url": "https://soundcloud.com/baryton-makila"
+      },
+      {
+        "label": "Spotify",
+        "url": "https://open.spotify.com/playlist/37i9dQZF1E4wRgBgqTGJ7X"
+      }
+    ]
+  }
+}
