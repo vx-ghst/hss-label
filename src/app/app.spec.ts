@@ -15,7 +15,7 @@ describe('HSS Label', () => {
     const app: HTMLElement = fixture.nativeElement;
     expect(app.querySelector('header')?.textContent).toContain('HSS LABEL');
     expect(app.querySelector('a[href="/#beats"]')).toBeNull();
-    expect(app.querySelector('a[href="/beats"]')).not.toBeNull();
+    expect(app.querySelector('a[href="/beats"]')).toBeNull();
     expect(app.querySelector('a[target="_blank"]')).toBeNull();
     expect(app.querySelector('a[href="/confidentialite"]')).not.toBeNull();
   });
