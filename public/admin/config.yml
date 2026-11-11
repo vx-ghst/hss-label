@@ -1,0 +1,567 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: vx-ghst/hss-label
+  branch: develop
+
+media_folder: public/media/uploads
+public_folder: /media/uploads
+
+i18n:
+  structure: single_file
+  locales: [fr, en]
+  default_locale: fr
+  initial_locales: [fr]
+
+collections:
+  - name: artists
+    label: Artistes
+    label_singular: Artiste
+    description: Profils des artistes du label.
+    folder: content/artists
+    format: json
+    extension: json
+    create: true
+    identifier_field: id
+    slug: '{{fields.slug}}'
+    summary: '{{name}} — {{status}}'
+    i18n: true
+    fields:
+      - { name: id, label: Identifiant stable, widget: string, i18n: duplicate }
+      - { name: slug, label: Slug, widget: string, i18n: duplicate }
+      - name: status
+        label: Publication
+        widget: select
+        options:
+          - { label: Brouillon, value: draft }
+          - { label: Publié, value: published }
+        default: draft
+        i18n: duplicate
+      - { name: name, label: Nom, widget: string, i18n: duplicate }
+      - { name: shortBio, label: Biographie courte, widget: text, i18n: true }
+      - { name: biography, label: Biographie, widget: text, i18n: true }
+      - { name: image, label: Photo, widget: image, i18n: duplicate }
+      - { name: featured, label: Mis en avant, widget: boolean, default: true, i18n: duplicate }
+      - {
+          name: sortOrder,
+          label: Ordre,
+          widget: number,
+          value_type: int,
+          default: 0,
+          i18n: duplicate,
+        }
+      - name: links
+        label: Liens musicaux et sociaux
+        widget: list
+        required: false
+        i18n: duplicate
+        fields:
+          - { name: label, label: Libellé, widget: string }
+          - { name: url, label: URL HTTPS, widget: string }
+
+  - name: releases
+    label: Sorties
+    label_singular: Sortie
+    description: Singles, EP, albums et mixtapes.
+    folder: content/releases
+    format: json
+    extension: json
+    create: true
+    identifier_field: id
+    slug: '{{fields.slug}}'
+    summary: '{{title}} — {{date}}'
+    i18n: true
+    fields:
+      - { name: id, label: Identifiant stable, widget: string, i18n: duplicate }
+      - { name: slug, label: Slug, widget: string, i18n: duplicate }
+      - name: status
+        label: Publication
+        widget: select
+        options:
+          - { label: Brouillon, value: draft }
+          - { label: Publié, value: published }
+        default: draft
+        i18n: duplicate
+      - { name: title, label: Titre officiel, widget: string, i18n: duplicate }
+      - { name: description, label: Description, widget: text, required: false, i18n: true }
+      - name: type
+        label: Type
+        widget: select
+        options:
+          - { label: Single, value: single }
+          - { label: EP, value: ep }
+          - { label: Album, value: album }
+          - { label: Mixtape, value: mixtape }
+        i18n: duplicate
+      - { name: date, label: Date de sortie, widget: datetime, type: date, i18n: duplicate }
+      - { name: image, label: Pochette, widget: image, i18n: duplicate }
+      - name: artistIds
+        label: Artistes
+        widget: relation
+        collection: artists
+        multiple: true
+        min: 1
+        value_field: id
+        display_fields: [name]
+        search_fields: [name, slug]
+        i18n: duplicate
+      - name: featuredArtistIds
+        label: Artistes invités ou mis en avant
+        widget: relation
+        collection: artists
+        multiple: true
+        required: false
+        value_field: id
+        display_fields: [name]
+        search_fields: [name, slug]
+        i18n: duplicate
+      - { name: featured, label: Mise en avant, widget: boolean, default: true, i18n: duplicate }
+      - {
+          name: sortOrder,
+          label: Ordre manuel,
+          widget: number,
+          value_type: int,
+          default: 0,
+          i18n: duplicate,
+        }
+      - name: links
+        label: Liens d’écoute
+        widget: list
+        required: false
+        i18n: duplicate
+        fields:
+          - { name: label, label: Plateforme, widget: string }
+          - { name: url, label: URL HTTPS, widget: string }
+
+  - name: videos
+    label: Vidéos
+    label_singular: Vidéo
+    description: Vidéos YouTube ou Vimeo chargées à la demande par le site.
+    folder: content/videos
+    format: json
+    extension: json
+    create: true
+    identifier_field: id
+    slug: '{{fields.slug}}'
+    summary: '{{title}} — {{date}}'
+    i18n: true
+    fields:
+      - { name: id, label: Identifiant stable, widget: string, i18n: duplicate }
+      - { name: slug, label: Slug, widget: string, i18n: duplicate }
+      - name: status
+        label: Publication
+        widget: select
+        options:
+          - { label: Brouillon, value: draft }
+          - { label: Publié, value: published }
+        default: draft
+        i18n: duplicate
+      - { name: title, label: Titre, widget: string, i18n: true }
+      - { name: description, label: Description, widget: text, required: false, i18n: true }
+      - name: provider
+        label: Plateforme
+        widget: select
+        options:
+          - { label: YouTube, value: youtube }
+          - { label: Vimeo, value: vimeo }
+        i18n: duplicate
+      - { name: url, label: URL de la vidéo, widget: string, i18n: duplicate }
+      - { name: thumbnail, label: Miniature, widget: image, i18n: duplicate }
+      - { name: date, label: Date de publication, widget: datetime, type: date, i18n: duplicate }
+      - name: artistIds
+        label: Artistes
+        widget: relation
+        collection: artists
+        multiple: true
+        min: 1
+        value_field: id
+        display_fields: [name]
+        search_fields: [name, slug]
+        i18n: duplicate
+      - { name: featured, label: Mise en avant, widget: boolean, default: true, i18n: duplicate }
+      - {
+          name: sortOrder,
+          label: Ordre manuel,
+          widget: number,
+          value_type: int,
+          default: 0,
+          i18n: duplicate,
+        }
+
+  - name: shows
+    label: Concerts
+    label_singular: Concert
+    description: Événements datés avec fuseau horaire explicite.
+    folder: content/shows
+    format: json
+    extension: json
+    create: true
+    identifier_field: id
+    slug: '{{fields.slug}}'
+    summary: '{{title}} — {{startsAt}}'
+    i18n: true
+    fields:
+      - { name: id, label: Identifiant stable, widget: string, i18n: duplicate }
+      - { name: slug, label: Slug, widget: string, i18n: duplicate }
+      - name: status
+        label: Publication
+        widget: select
+        options:
+          - { label: Brouillon, value: draft }
+          - { label: Publié, value: published }
+        default: draft
+        i18n: duplicate
+      - { name: title, label: Titre, widget: string, i18n: true }
+      - name: startsAt
+        label: Début
+        widget: datetime
+        input_timezone: Europe/Paris
+        output_utc: false
+        i18n: duplicate
+      - name: endsAt
+        label: Fin
+        widget: datetime
+        input_timezone: Europe/Paris
+        output_utc: false
+        required: false
+        i18n: duplicate
+      - { name: venue, label: Salle, widget: string, i18n: duplicate }
+      - { name: city, label: Ville, widget: string, i18n: duplicate }
+      - { name: country, label: Pays, widget: string, default: Belgique, i18n: duplicate }
+      - name: artistIds
+        label: Artistes
+        widget: relation
+        collection: artists
+        multiple: true
+        min: 1
+        value_field: id
+        display_fields: [name]
+        search_fields: [name, slug]
+        i18n: duplicate
+      - name: eventStatus
+        label: État de l’événement
+        widget: select
+        options:
+          - { label: Annoncé, value: announced }
+          - { label: Complet, value: sold_out }
+          - { label: Annulé, value: cancelled }
+        default: announced
+        i18n: duplicate
+      - {
+          name: ticketUrl,
+          label: Billetterie HTTPS,
+          widget: string,
+          required: false,
+          i18n: duplicate,
+        }
+
+  - name: settings
+    label: Réglages
+    description: Réglages généraux, navigation et visibilité des sections.
+    i18n: true
+    files:
+      - name: site
+        label: Site et navigation
+        file: content/settings/site.json
+        format: json
+        i18n: true
+        fields:
+          - { name: name, label: Nom du site, widget: string, i18n: duplicate }
+          - { name: shortName, label: Nom court, widget: string, i18n: duplicate }
+          - { name: city, label: Ville affichée, widget: string, i18n: true }
+          - { name: logo, label: Logo, widget: image, required: false, i18n: duplicate }
+          - name: socialLinks
+            label: Réseaux sociaux
+            widget: list
+            required: false
+            i18n: duplicate
+            fields:
+              - { name: label, label: Réseau, widget: string }
+              - { name: url, label: URL HTTPS, widget: string }
+          - name: sections
+            label: Sections de l’accueil
+            widget: object
+            i18n: true
+            fields:
+              - name: home
+                label: Home
+                widget: object
+                i18n: true
+                fields:
+                  - { name: enabled, widget: hidden, default: true, i18n: duplicate }
+                  - { name: hideWhenEmpty, widget: hidden, default: false, i18n: duplicate }
+                  - { name: showInMenu, widget: hidden, default: false, i18n: duplicate }
+                  - {
+                      name: menuLabel,
+                      label: Libellé du menu,
+                      widget: string,
+                      default: Home,
+                      i18n: true,
+                    }
+                  - {
+                      name: navigationLabel,
+                      label: Libellé accessible,
+                      widget: string,
+                      default: Accueil,
+                      i18n: true,
+                    }
+              - name: releases
+                label: Latest Releases
+                widget: object
+                i18n: true
+                fields:
+                  - {
+                      name: enabled,
+                      label: Activée,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: hideWhenEmpty,
+                      label: Masquer si vide,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: showInMenu,
+                      label: Afficher dans le menu,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: menuLabel,
+                      label: Libellé du menu,
+                      widget: string,
+                      default: Releases,
+                      i18n: true,
+                    }
+                  - {
+                      name: navigationLabel,
+                      label: Libellé accessible,
+                      widget: string,
+                      default: Dernières sorties,
+                      i18n: true,
+                    }
+              - name: videos
+                label: Latest Videos
+                widget: object
+                i18n: true
+                fields:
+                  - {
+                      name: enabled,
+                      label: Activée,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: hideWhenEmpty,
+                      label: Masquer si vide,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: showInMenu,
+                      label: Afficher dans le menu,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: menuLabel,
+                      label: Libellé du menu,
+                      widget: string,
+                      default: Videos,
+                      i18n: true,
+                    }
+                  - {
+                      name: navigationLabel,
+                      label: Libellé accessible,
+                      widget: string,
+                      default: Dernières vidéos,
+                      i18n: true,
+                    }
+              - name: artists
+                label: Artists
+                widget: object
+                i18n: true
+                fields:
+                  - {
+                      name: enabled,
+                      label: Activée,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: hideWhenEmpty,
+                      label: Masquer si vide,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: showInMenu,
+                      label: Afficher dans le menu,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: menuLabel,
+                      label: Libellé du menu,
+                      widget: string,
+                      default: Artists,
+                      i18n: true,
+                    }
+                  - {
+                      name: navigationLabel,
+                      label: Libellé accessible,
+                      widget: string,
+                      default: Artistes,
+                      i18n: true,
+                    }
+              - name: shows
+                label: Upcoming Shows
+                widget: object
+                i18n: true
+                fields:
+                  - {
+                      name: enabled,
+                      label: Activée,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: hideWhenEmpty,
+                      label: Masquer si vide,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: showInMenu,
+                      label: Afficher dans le menu,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: menuLabel,
+                      label: Libellé du menu,
+                      widget: string,
+                      default: Shows,
+                      i18n: true,
+                    }
+                  - {
+                      name: navigationLabel,
+                      label: Libellé accessible,
+                      widget: string,
+                      default: Prochains concerts,
+                      i18n: true,
+                    }
+              - name: beats
+                label: BeatStars
+                widget: object
+                i18n: true
+                fields:
+                  - {
+                      name: enabled,
+                      label: Activée,
+                      widget: boolean,
+                      default: false,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: hideWhenEmpty,
+                      label: Masquer si vide,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: showInMenu,
+                      label: Afficher dans le menu,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - {
+                      name: menuLabel,
+                      label: Libellé du menu,
+                      widget: string,
+                      default: BeatStars,
+                      i18n: true,
+                    }
+                  - {
+                      name: navigationLabel,
+                      label: Libellé accessible,
+                      widget: string,
+                      default: Instrumentales BeatStars,
+                      i18n: true,
+                    }
+          - name: secondaryMenu
+            label: Pages secondaires
+            widget: object
+            i18n: true
+            fields:
+              - name: asbl
+                label: ASBL
+                widget: object
+                i18n: true
+                fields:
+                  - {
+                      name: enabled,
+                      label: Afficher,
+                      widget: boolean,
+                      default: true,
+                      i18n: duplicate,
+                    }
+                  - { name: label, label: Libellé, widget: string, default: ASBL, i18n: true }
+              - name: beats
+                label: Beats
+                widget: object
+                i18n: true
+                fields:
+                  - {
+                      name: enabled,
+                      label: Afficher,
+                      widget: boolean,
+                      default: false,
+                      i18n: duplicate,
+                    }
+                  - { name: label, label: Libellé, widget: string, default: Beats, i18n: true }
+          - name: merch
+            label: Shopify / MERCH
+            widget: object
+            i18n: true
+            fields:
+              - {
+                  name: enabled,
+                  label: Activer MERCH,
+                  widget: boolean,
+                  default: false,
+                  i18n: duplicate,
+                }
+              - { name: label, label: Libellé, widget: string, default: MERCH, i18n: true }
+              - {
+                  name: shopifyUrl,
+                  label: URL Shopify HTTPS,
+                  widget: string,
+                  required: false,
+                  i18n: duplicate,
+                }
+              - { name: openInNewTab, widget: hidden, default: true, i18n: duplicate }
+          - name: beatStars
+            label: BeatStars
+            widget: object
+            i18n: duplicate
+            fields:
+              - { name: url, label: URL BeatStars HTTPS, widget: string, required: false }
+              - { name: playerId, label: Identifiant du lecteur, widget: string, required: false }
