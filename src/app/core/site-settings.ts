@@ -77,7 +77,7 @@ export const siteSettings: SiteSettings = {
   },
   secondaryMenu: {
     asbl: { enabled: true, label: 'ASBL' },
-    beats: { enabled: true, label: 'Beats' },
+    beats: { enabled: false, label: 'Beats' },
   },
   merch: {
     enabled: false,
