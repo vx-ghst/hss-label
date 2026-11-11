@@ -71,7 +71,7 @@ export const videos = [
   { title: 'Salle vide — en studio', image: '/media/ligne.webp', artistSlug: 'ligne-basse' },
 ];
 
-const shows = [
+export const shows = [
   {
     title: 'HSS Sessions',
     startsAt: '2026-12-19T20:00:00+01:00',
@@ -90,9 +90,7 @@ const shows = [
   },
 ];
 
-export const upcomingShows = shows
-  .filter((show) => Date.parse(show.startsAt) >= Date.now())
-  .sort((first, second) => Date.parse(first.startsAt) - Date.parse(second.startsAt));
+export type Show = (typeof shows)[number];
 
 export const beats = [
   { title: 'Terrain vague', bpm: 87, style: 'Boom bap' },

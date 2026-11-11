@@ -9,16 +9,8 @@ import {
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import {
-  artistName,
-  artists,
-  releases,
-  sections,
-  SectionId,
-  site,
-  upcomingShows,
-  videos,
-} from '../core/content';
+import { artistName, artists, releases, sections, SectionId, site, videos } from '../core/content';
+import { ShowsService } from '../core/shows';
 
 @Component({
   selector: 'hss-home',
@@ -31,11 +23,11 @@ export class Home {
   protected readonly releases = releases;
   protected readonly videos = videos;
   protected readonly artists = artists;
-  protected readonly shows = upcomingShows;
   protected readonly site = site;
   protected readonly artistName = artistName;
   protected readonly activeSection = signal<SectionId>('home');
   protected readonly activeArtist = signal(0);
+  protected readonly shows = inject(ShowsService).upcomingShows;
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroy = inject(DestroyRef);
   private readonly track = viewChild.required<ElementRef<HTMLElement>>('track');

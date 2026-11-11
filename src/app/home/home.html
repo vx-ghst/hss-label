@@ -131,7 +131,7 @@
 <section class="panel" id="shows" data-section tabindex="-1" aria-labelledby="shows-title">
   <div class="section-inner">
     <h2 id="shows-title">Upcoming Shows</h2>
-    @for (show of shows; track show.title) {
+    @for (show of shows(); track show.title) {
       <article class="show">
         <time [attr.datetime]="show.startsAt"
           >{{ show.startsAt.slice(0, 10) }} ·

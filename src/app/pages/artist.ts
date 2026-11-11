@@ -1,6 +1,7 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { artists, releases, upcomingShows, videos } from '../core/content';
+import { artists, releases, videos } from '../core/content';
+import { ShowsService } from '../core/shows';
 
 @Component({
   imports: [RouterLink],
@@ -55,6 +56,7 @@ import { artists, releases, upcomingShows, videos } from '../core/content';
 })
 export class ArtistPage {
   readonly slug = input.required<string>();
+  private readonly shows = inject(ShowsService).upcomingShows;
   protected readonly artist = computed(() => artists.find((artist) => artist.slug === this.slug()));
   protected readonly relatedReleases = computed(() =>
     releases.filter((release) => release.artistSlug === this.slug()),
@@ -63,6 +65,6 @@ export class ArtistPage {
     videos.filter((video) => video.artistSlug === this.slug()),
   );
   protected readonly relatedShows = computed(() =>
-    upcomingShows.filter((show) => show.artistSlug === this.slug()),
+    this.shows().filter((show) => show.artistSlug === this.slug()),
   );
 }
