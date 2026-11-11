@@ -1,0 +1,27 @@
+{
+  "fr": {
+    "id": "hakim-le-medecin-legiste",
+    "slug": "hakim-le-medecin-legiste",
+    "status": "draft",
+    "name": "Hakim Le Médecin Légiste",
+    "shortBio": "Hakim Le Médecin Légiste, également connu sous le nom de Hakimlehak, est un rappeur indépendant francophone basé à Liège, en Belgique. Ancré dans la culture boom bap et le hip-hop underground, il développe son univers à travers ses morceaux, ses freestyles et ses collaborations. Actif au sein de Highschool Surgery, il transmet également sa passion en animant des ateliers d'écriture rap, de composition musicale et de MAO.abel.",
+    "biography": "**Hakim Le Médecin Légiste**, également connu sous le nom de **Hakimlehak**, est un artiste rap indépendant francophone basé à Liège, en Belgique.\n\nAncré dans la culture hip-hop et l'esthétique boom bap, il développe son parcours artistique à travers le rap, le freestyle et les collaborations musicales. Actif sur la scène underground francophone, il participe à des projets réunissant notamment des artistes de Liège et de Toulouse.\n\nSon travail l'amène à collaborer avec des rappeurs tels que Baryton Makila, R.E.D.A. et Dr Reikai. Il figure notamment sur le titre **« Freestyle 1 »**, aux côtés de Baryton Makila et Dr Reikai, une sortie annoncée pour le 27 novembre 2026 sous le label Highschool Surgery.\n\nAu-delà de sa pratique artistique, Hakim s'investit dans la transmission et l'accompagnement de nouveaux talents. À travers Highschool Surgery, il propose des séances de coaching et des ateliers consacrés à l'écriture rap, à la poésie, à la composition musicale et à la musique assistée par ordinateur (MAO).\n\nIl participe également à la vie de la scène hip-hop locale, notamment à travers des concerts boom bap, des sessions freestyle, des événements open mic et des interventions radiophoniques.\n\nEntre création, collaboration et transmission, Hakim Le Médecin Légiste contribue au développement d'une scène rap indépendante et à l'émergence de nouvelles expressions artistiques.",
+    "image": "/media/uploads/2.jpg",
+    "featured": true,
+    "sortOrder": 1,
+    "links": [
+      {
+        "label": "Tiktok",
+        "url": "https://www.tiktok.com/@hakim.le.mdecin.l"
+      },
+      {
+        "label": "Facebook",
+        "url": "https://www.facebook.com/hakim.le.medecin.legiste"
+      },
+      {
+        "label": "Qobuz",
+        "url": "https://www.qobuz.com/us-en/interpreter/hakim-le-medecin-legiste/36583578"
+      }
+    ]
+  }
+}
