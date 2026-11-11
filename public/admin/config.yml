@@ -3,7 +3,8 @@
 backend:
   name: github
   repo: vx-ghst/hss-label
-  branch: develop
+  branch: main
+  base_url: https://sveltia-cms-auth.vxghst-e0e.workers.dev
 
 media_folder: public/media/uploads
 public_folder: /media/uploads
