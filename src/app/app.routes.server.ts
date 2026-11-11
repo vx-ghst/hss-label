@@ -1,5 +1,5 @@
 import { PrerenderFallback, RenderMode, ServerRoute } from '@angular/ssr';
-import { artists } from './core/content';
+import { publishedArtists } from './core/artists';
 
 export const serverRoutes: ServerRoute[] = [
   {
@@ -7,7 +7,7 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
     fallback: PrerenderFallback.None,
     async getPrerenderParams() {
-      return artists.map(({ slug }) => ({ slug }));
+      return publishedArtists.map(({ slug }) => ({ slug }));
     },
   },
   { path: '**', renderMode: RenderMode.Prerender },

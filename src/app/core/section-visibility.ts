@@ -1,14 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
-import {
-  artists,
-  beats,
-  releases,
-  SectionDefinition,
-  SectionId,
-  sections,
-  site,
-  videos,
-} from './content';
+import { featuredArtists } from './artists';
+import { beats, releases, SectionDefinition, SectionId, sections, site, videos } from './content';
 import { MerchSettings, SectionSettingsMap, siteSettings } from './site-settings';
 import { ShowsService } from './shows';
 
@@ -96,7 +88,7 @@ export class SectionVisibilityService {
       home: true,
       releases: releases.length > 0,
       videos: videos.length > 0,
-      artists: artists.length > 0,
+      artists: featuredArtists.length > 0,
       shows: this.upcomingShows().length > 0,
       beats: beats.length > 0 && isValidHttpsUrl(site.beatStarsUrl),
     }),

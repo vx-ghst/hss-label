@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { artists, site } from './core/content';
+import { findPublishedArtistBySlug } from './core/artists';
+import { site } from './core/content';
 
 export const routes: Routes = [
   {
@@ -10,8 +11,7 @@ export const routes: Routes = [
   {
     path: 'artistes/:slug',
     title: (route) =>
-      artists.find((artist) => artist.slug === route.paramMap.get('slug'))?.name ??
-      'Artiste introuvable',
+      findPublishedArtistBySlug(route.paramMap.get('slug') ?? '')?.name ?? 'Artiste introuvable',
     loadComponent: () => import('./pages/artist').then((module) => module.ArtistPage),
   },
   {

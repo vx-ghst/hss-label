@@ -10,15 +10,8 @@ import {
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import {
-  artistName,
-  artists,
-  releases,
-  sections as sectionCatalog,
-  SectionId,
-  site,
-  videos,
-} from '../core/content';
+import { artistName, featuredArtists } from '../core/artists';
+import { releases, sections as sectionCatalog, SectionId, site, videos } from '../core/content';
 import { SectionVisibilityService } from '../core/section-visibility';
 import { ShowsService } from '../core/shows';
 import { CarouselDirective } from '../shared/carousel.directive';
@@ -32,7 +25,7 @@ import { CarouselDirective } from '../shared/carousel.directive';
 export class Home {
   protected readonly releases = releases;
   protected readonly videos = videos;
-  protected readonly artists = artists;
+  protected readonly artists = featuredArtists;
   protected readonly site = site;
   protected readonly artistName = artistName;
   protected readonly activeSection = signal<SectionId>('home');

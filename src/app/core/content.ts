@@ -1,3 +1,5 @@
+import type { Artist } from './artist.model';
+
 export const site = {
   name: 'HighSchool Surgery',
   shortName: 'HSS LABEL',
@@ -18,30 +20,66 @@ export const sections = [
 export type SectionId = (typeof sections)[number]['id'];
 export type SectionDefinition = (typeof sections)[number];
 
-export const artists = [
+export const fallbackArtists: readonly Artist[] = [
   {
+    id: 'atlas-gris',
     slug: 'atlas-gris',
+    status: 'published',
     name: 'Atlas Gris',
     image: '/media/atlas.webp',
     shortBio: 'Des couplets bruts sur des boucles découpées à la main.',
     biography:
       'Atlas Gris construit ses morceaux autour de samples courts, de silences et de récits de quartier. Sur scène, il retravaille ses textes au fil des instrumentales.',
+    links: [],
+    featured: true,
+    sortOrder: 10,
+    translations: {
+      fr: {
+        shortBio: 'Des couplets bruts sur des boucles découpées à la main.',
+        biography:
+          'Atlas Gris construit ses morceaux autour de samples courts, de silences et de récits de quartier. Sur scène, il retravaille ses textes au fil des instrumentales.',
+      },
+    },
   },
   {
+    id: 'ligne-basse',
     slug: 'ligne-basse',
+    status: 'published',
     name: 'Ligne Basse',
     image: '/media/ligne.webp',
     shortBio: 'Des basses épaisses, du grain et une obsession pour les breaks.',
     biography:
       'Ligne Basse assemble des rythmes à partir de vinyles, de boîtes à rythmes et de prises de terrain. Ses productions font le lien entre le beatmaking et les musiques électroniques.',
+    links: [],
+    featured: true,
+    sortOrder: 20,
+    translations: {
+      fr: {
+        shortBio: 'Des basses épaisses, du grain et une obsession pour les breaks.',
+        biography:
+          'Ligne Basse assemble des rythmes à partir de vinyles, de boîtes à rythmes et de prises de terrain. Ses productions font le lien entre le beatmaking et les musiques électroniques.',
+      },
+    },
   },
   {
+    id: 'nuit-civile',
     slug: 'nuit-civile',
+    status: 'published',
     name: 'Nuit Civile',
     image: '/media/nuit.webp',
     shortBio: 'Un rap nocturne aux images précises et aux refrains discrets.',
     biography:
       'Nuit Civile écrit à partir de conversations et de scènes ordinaires. Les arrangements laissent de la place à la voix, avec des basses sourdes et des textures de bande.',
+    links: [],
+    featured: true,
+    sortOrder: 30,
+    translations: {
+      fr: {
+        shortBio: 'Un rap nocturne aux images précises et aux refrains discrets.',
+        biography:
+          'Nuit Civile écrit à partir de conversations et de scènes ordinaires. Les arrangements laissent de la place à la voix, avec des basses sourdes et des textures de bande.',
+      },
+    },
   },
 ];
 
@@ -97,7 +135,3 @@ export const beats = [
   { title: 'Plein cadre', bpm: 92, style: 'Boom bap' },
   { title: 'Bande noire', bpm: 80, style: 'Hip-hop instrumental' },
 ];
-
-export function artistName(slug: string): string {
-  return artists.find((artist) => artist.slug === slug)?.name ?? slug;
-}

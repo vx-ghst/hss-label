@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { App } from './app';
-import { artists } from './core/content';
+import { publishedArtists } from './core/artists';
 import { serverRoutes } from './app.routes.server';
 
 describe('HSS Label', () => {
@@ -20,12 +20,12 @@ describe('HSS Label', () => {
     expect(app.querySelector('a[href="/confidentialite"]')).not.toBeNull();
   });
 
-  it('prérend une route pour chaque artiste fictif', async () => {
+  it('prérend une route pour chaque artiste publié', async () => {
     const artistRoute = serverRoutes.find((route) => route.path === 'artistes/:slug');
     if (!artistRoute || !('getPrerenderParams' in artistRoute))
       throw new Error('Route de prérendu absente');
     expect(await artistRoute?.getPrerenderParams?.()).toEqual(
-      artists.map((artist) => ({ slug: artist.slug })),
+      publishedArtists.map((artist) => ({ slug: artist.slug })),
     );
   });
 });
