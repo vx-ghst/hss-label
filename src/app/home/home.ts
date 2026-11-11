@@ -1,46 +1,77 @@
 import {
   afterNextRender,
   Component,
+  computed,
   DestroyRef,
+  effect,
   ElementRef,
   inject,
   signal,
-  viewChild,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { artistName, artists, releases, sections, SectionId, site, videos } from '../core/content';
+import {
+  artistName,
+  artists,
+  releases,
+  sections as sectionCatalog,
+  SectionId,
+  site,
+  videos,
+} from '../core/content';
+import { SectionVisibilityService } from '../core/section-visibility';
 import { ShowsService } from '../core/shows';
+import { CarouselDirective } from '../shared/carousel.directive';
 
 @Component({
   selector: 'hss-home',
-  imports: [DatePipe, RouterLink],
+  imports: [CarouselDirective, DatePipe, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home {
-  protected readonly sections = sections;
   protected readonly releases = releases;
   protected readonly videos = videos;
   protected readonly artists = artists;
   protected readonly site = site;
   protected readonly artistName = artistName;
   protected readonly activeSection = signal<SectionId>('home');
-  protected readonly activeArtist = signal(0);
   protected readonly shows = inject(ShowsService).upcomingShows;
+  protected readonly sections = inject(SectionVisibilityService).visibleSections;
+  protected readonly visibleSectionIds = computed(
+    () => new Set(this.sections().map((section) => section.id)),
+  );
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroy = inject(DestroyRef);
-  private readonly track = viewChild.required<ElementRef<HTMLElement>>('track');
 
   constructor() {
-    afterNextRender(() => {
-      const panels = Array.from(
-        this.host.nativeElement.querySelectorAll<HTMLElement>('section[data-section]'),
+    effect(() => {
+      const visibleSections = this.sections();
+      const activeSection = this.activeSection();
+      if (visibleSections.some((section) => section.id === activeSection)) return;
+
+      const activeIndex = sectionCatalog.findIndex((section) => section.id === activeSection);
+      const previous = visibleSections
+        .filter(
+          (section) =>
+            sectionCatalog.findIndex((candidate) => candidate.id === section.id) < activeIndex,
+        )
+        .at(-1);
+      const next = visibleSections.find(
+        (section) =>
+          sectionCatalog.findIndex((candidate) => candidate.id === section.id) > activeIndex,
       );
+      this.activeSection.set(previous?.id ?? next?.id ?? 'home');
+    });
+
+    afterNextRender(() => {
       // Use pixels because percentage root margins are relative to viewport width.
       let observer: IntersectionObserver;
       const observePanels = () => {
         observer?.disconnect();
+        const panels = Array.from(
+          this.host.nativeElement.querySelectorAll<HTMLElement>('section[data-section]'),
+        );
         const height = window.innerHeight;
         observer = new IntersectionObserver(
           (entries) => {
@@ -53,42 +84,24 @@ export class Home {
         panels.forEach((panel) => observer.observe(panel));
       };
       observePanels();
+      const mutationObserver = new MutationObserver(observePanels);
+      mutationObserver.observe(this.host.nativeElement, { childList: true, subtree: true });
       window.addEventListener('resize', observePanels);
       this.destroy.onDestroy(() => {
         observer.disconnect();
+        mutationObserver.disconnect();
         window.removeEventListener('resize', observePanels);
       });
-
-      const initialSection = panels.find((panel) => '#' + panel.id === window.location.hash);
-      initialSection?.scrollIntoView({ behavior: 'instant' });
     });
   }
 
   protected adjacent(direction: number): SectionId | undefined {
-    const current = this.sections.findIndex((section) => section.id === this.activeSection());
-    return this.sections[current + direction]?.id;
+    return this.sectionAdjacentTo(this.activeSection(), direction);
   }
 
-  protected selectArtist(index: number): void {
-    const track = this.track().nativeElement;
-    const slide = track.children.item(index) as HTMLElement | null;
-    if (!slide) return;
-    const left =
-      slide.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
-    track.scrollTo({ left });
-  }
-
-  protected trackArtist(): void {
-    const track = this.track().nativeElement;
-    const index = Math.round(track.scrollLeft / track.clientWidth);
-    this.activeArtist.set(Math.max(0, Math.min(index, artists.length - 1)));
-  }
-
-  protected artistKeys(event: KeyboardEvent): void {
-    if (event.target !== this.track().nativeElement) return;
-    const offset = event.key === 'ArrowLeft' ? -1 : event.key === 'ArrowRight' ? 1 : 0;
-    if (!offset) return;
-    event.preventDefault();
-    this.selectArtist(this.activeArtist() + offset);
+  protected sectionAdjacentTo(sectionId: SectionId, direction: number): SectionId | undefined {
+    const visibleSections = this.sections();
+    const current = visibleSections.findIndex((section) => section.id === sectionId);
+    return visibleSections[current + direction]?.id;
   }
 }

@@ -18,14 +18,19 @@
     [class.open]="menuOpen()"
     (keydown.escape)="menuOpen.set(false)"
   >
-    @for (section of sections; track section.id) {
+    @for (section of sections(); track section.id) {
       <a routerLink="/" [fragment]="section.id" (click)="menuOpen.set(false)">{{
-        section.label
+        section.menuLabel
       }}</a>
     }
-    <a routerLink="/asbl" (click)="menuOpen.set(false)">ASBL</a>
-    @if (site.merchUrl) {
-      <a [href]="site.merchUrl">Merch ↗</a>
+    @if (secondaryMenu.asbl.enabled) {
+      <a routerLink="/asbl" (click)="menuOpen.set(false)">{{ secondaryMenu.asbl.label }}</a>
+    }
+    @if (secondaryMenu.beats.enabled) {
+      <a routerLink="/beats" (click)="menuOpen.set(false)">{{ secondaryMenu.beats.label }}</a>
+    }
+    @if (merch; as item) {
+      <a [href]="item.url" target="_blank" rel="noopener noreferrer">{{ item.label }} ↗</a>
     }
   </nav>
 </header>

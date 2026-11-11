@@ -81,7 +81,7 @@
   text-decoration: none;
 }
 .section-nav span,
-.artist-dot span {
+.carousel-dot span {
   display: block;
   width: 8px;
   height: 8px;
@@ -89,7 +89,7 @@
   border-radius: 50%;
 }
 .section-nav a[aria-current] span,
-.artist-dot[aria-current] span {
+.carousel-dot[aria-current] span {
   background: var(--ink);
   border-color: var(--ink);
 }
@@ -99,56 +99,37 @@
 .section-arrows a {
   border: 1px solid var(--line);
 }
-.release-grid,
-.video-grid {
-  display: grid;
-  gap: clamp(1rem, 2vw, 2rem);
-}
-.release-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.video-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.release-grid img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-.video-grid img {
-  width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  margin-bottom: 0.9rem;
-}
-.card-meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.3rem 0.7rem;
-  margin: 0.9rem 0 0.3rem;
-}
 time {
   color: var(--muted);
   font:
     0.75rem/1.4 ui-monospace,
     monospace;
 }
-.artist-track {
+.carousel-track {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
-.artist-slide {
+.carousel-slide {
   flex: 0 0 100%;
   min-width: 0;
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
   scroll-snap-align: start;
   background: #151515;
 }
+.release-slide,
+.artist-slide {
+  grid-template-columns: 1.25fr 1fr;
+}
+.video-slide {
+  grid-template-columns: 1.55fr 1fr;
+}
+.release-slide img,
+.video-slide img,
 .artist-slide img {
   width: 100%;
   height: 100%;
@@ -156,10 +137,23 @@ time {
   max-height: 53svh;
   object-fit: cover;
 }
+.release-slide img {
+  aspect-ratio: 1;
+}
+.video-slide img {
+  aspect-ratio: 16 / 9;
+}
+.carousel-copy,
 .artist-copy {
   align-self: center;
   padding: clamp(1rem, 4vw, 3rem);
 }
+.carousel-copy {
+  display: grid;
+  justify-items: start;
+  gap: 0.8rem;
+}
+.carousel-copy h3,
 .artist-copy h3 {
   font: 800 clamp(2rem, 5vw, 5rem)/0.9 var(--display);
   text-transform: uppercase;
@@ -168,13 +162,13 @@ time {
 .beats-panel p {
   margin: 1rem 0 1.4rem;
 }
-.artist-nav {
+.carousel-nav {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   margin-top: 1rem;
 }
-.artist-nav button {
+.carousel-nav button {
   display: grid;
   place-items: center;
   width: 44px;
@@ -184,11 +178,11 @@ time {
   background: transparent;
   cursor: pointer;
 }
-.artist-nav button:disabled {
+.carousel-nav button:disabled {
   opacity: 0.4;
   cursor: default;
 }
-.artist-nav .artist-dot {
+.carousel-nav .carousel-dot {
   border-color: transparent;
 }
 .show {
@@ -221,14 +215,19 @@ time {
   .section-arrows a {
     width: 34px;
   }
-  .release-grid,
-  .video-grid,
+  .release-slide,
+  .video-slide,
   .artist-slide {
     grid-template-columns: minmax(0, 1fr);
   }
+  .release-slide img,
+  .video-slide img,
   .artist-slide img {
     height: auto;
     min-height: 0;
+    max-height: none;
+  }
+  .artist-slide img {
     aspect-ratio: 16 / 10;
   }
   .show {
@@ -237,7 +236,7 @@ time {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .artist-track {
+  .carousel-track {
     scroll-behavior: auto;
   }
 }

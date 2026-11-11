@@ -3,7 +3,6 @@ export const site = {
   shortName: 'HSS LABEL',
   wordmark: { prefix: 'High', outline: 'School', secondLine: 'Surgery' },
   city: 'Liège, Belgique',
-  merchUrl: '',
   beatStarsUrl: '',
 };
 
@@ -17,6 +16,7 @@ export const sections = [
 ] as const;
 
 export type SectionId = (typeof sections)[number]['id'];
+export type SectionDefinition = (typeof sections)[number];
 
 export const artists = [
   {
